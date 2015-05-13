@@ -35,9 +35,11 @@ var handleRequest = function(request, sender, callback) {
       attrsEl.value = request['attrs'];
     }
   } else if (request['type'] === 'clipboard') {
-    $("#path").select();
-    document.execCommand("copy");
-    document.getSelection().removeAllRanges();
+    if($("#enable-clipboard").prop('checked')) {
+       $("#path").select();
+       document.execCommand("copy");
+       document.getSelection().removeAllRanges();
+     }
   }
 };
 
