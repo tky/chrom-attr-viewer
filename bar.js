@@ -34,6 +34,10 @@ var handleRequest = function(request, sender, callback) {
     if (request['attrs'] !== null) {
       attrsEl.value = request['attrs'];
     }
+  } else if (request['type'] === 'clipboard') {
+    $("#path").select();
+    document.execCommand("copy");
+    document.getSelection().removeAllRanges();
   }
 };
 
@@ -82,6 +86,7 @@ document.addEventListener('keydown', handleKeyDown);
 
 document.getElementById('move-bottom').addEventListener('click', handleMoveBottom);
 document.getElementById('move-top').addEventListener('click', handleMoveTop);
+
 chrome.extension.onMessage.addListener(handleRequest);
 
 var request = {
@@ -89,3 +94,11 @@ var request = {
   'height': document.documentElement.offsetHeight
 };
 chrome.extension.sendMessage(request);
+
+var toClipBoard =  function(str, mimetype) {
+  document.oncopy = function(event) {
+    event.clipboardData.setData(mimetype, str);
+    event.preventDefault();
+  };
+  document.execCommand("Copy", false, null);
+};

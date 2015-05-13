@@ -139,6 +139,14 @@ xh.Bar.prototype.updateMessage = function(path, attrs) {
   chrome.extension.sendMessage(request);
 };
 
+xh.Bar.prototype.updateClipboard = function(message) {
+  var request = {
+    'type': 'clipboard',
+    'message': message
+  };
+  chrome.extension.sendMessage(request);
+};
+
 xh.Bar.prototype.showBar_ = function() {
   this.barFrame_.style.height = this.barHeightInPx_ + 'px';
   this.barFrame_.style.top = this.barTopInPx_ + 'px';
@@ -187,7 +195,9 @@ xh.Bar.prototype.mouseMove_ = function(e) {
     for (var i = 0; i < attrs.length; i++) {
       messages.push(attrs[i].name + " " + attrs[i].value);
     }
-    this.updateMessage(xh.makeQueryForElement(e.toElement), messages.join('\r\n'));
+    var path = xh.makeQueryForElement(e.toElement);
+    this.updateMessage(path, messages.join('\r\n'));
+    this.updateClipboard(path);
   }
 };
 
