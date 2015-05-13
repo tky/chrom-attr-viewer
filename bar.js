@@ -58,12 +58,30 @@ var handleKeyDown = function(e) {
   }
 };
 
+var handleMoveBottom = function(e) {
+  var height = $('#body').height();
+  var request = {
+    'type': 'bottom',
+    'position': height
+  };
+  chrome.extension.sendMessage(request);
+};
+
+var handleMoveTop = function(e) {
+  var request = {
+    'type': 'top'
+  };
+  chrome.extension.sendMessage(request);
+}
+
 // Add mousemove listener so we can detect Shift + mousemove inside iframe.
 document.addEventListener('mousemove', handleMouseMove);
 // Add keydown listener so we can detect Ctrl-Shift-X and tell content script to
 // steal focus and hide bar.
 document.addEventListener('keydown', handleKeyDown);
 
+document.getElementById('move-bottom').addEventListener('click', handleMoveBottom);
+document.getElementById('move-top').addEventListener('click', handleMoveTop);
 chrome.extension.onMessage.addListener(handleRequest);
 
 var request = {

@@ -4,7 +4,7 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="bar.css">
   </head>
-  <body>
+  <body id="body">
     <div id="row">
       <div id="path-box">
         <div class="box-name">XPATH:</div>
@@ -14,8 +14,13 @@
         <div class="box-name">ATTRIBUTE:</div>
         <textarea id="attrs" style="height:100px"></textarea>
       </div>
+      <div id="tool-box">
+        <button id="move-bottom">bottom</button>
+        <button id="move-top">top</button>
+      </div>
     </div>
     <div id="clear"></div>
     <script type="text/javascript" src="bar.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
   </body>
 </html>

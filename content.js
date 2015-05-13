@@ -106,6 +106,7 @@ xh.Bar = function() {
   this.barFrame_.id = 'xh-bar';
   this.barFrame_.className = 'top';
   this.barFrame_.style.height = '0';
+  this.barFrame_.style.top = '0';
 
   // Temporarily make bar 'hidden' and add it to the DOM. Once the bar's html
   // has loaded, it will send us a message with its height, at which point we'll
@@ -120,6 +121,7 @@ xh.Bar = function() {
 xh.Bar.prototype.active_ = false;
 xh.Bar.prototype.barFrame_ = null;
 xh.Bar.prototype.barHeightInPx_ = 0;
+xh.Bar.prototype.barTopInPx_ = 0;
 xh.Bar.prototype.currEl_ = null;
 xh.Bar.prototype.boundHandleRequest_ = null;
 xh.Bar.prototype.boundMouseMove_ = null;
@@ -139,6 +141,7 @@ xh.Bar.prototype.updateMessage = function(path, attrs) {
 
 xh.Bar.prototype.showBar_ = function() {
   this.barFrame_.style.height = this.barHeightInPx_ + 'px';
+  this.barFrame_.style.top = this.barTopInPx_ + 'px';
   document.addEventListener('mousemove', this.boundMouseMove_);
 };
 
@@ -168,6 +171,12 @@ xh.Bar.prototype.handleRequest_ = function(request, sender, callback) {
   } else if (request['type'] === 'hideBar') {
     this.hideBar_();
     window.focus();
+  } else if (request['type'] === 'bottom') {
+    this.barTopInPx_ =  window.innerHeight - request['position'] - 20;
+    this.barFrame_.style.top = this.barTopInPx_ + 'px';
+  } else if (request['type'] === 'top') {
+    this.barTopInPx_ =  0;
+    this.barFrame_.style.top = this.barTopInPx_ + 'px';
   }
 };
 
